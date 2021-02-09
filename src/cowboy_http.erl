@@ -1136,7 +1136,7 @@ commands(State0=#state{socket=Socket, transport=Transport, streams=Streams0, out
 		nofin -> State0
 	end,
 	Streams = lists:keyreplace(StreamID, #stream.id, Streams0, Stream),
-	commands(State#state{streams=Streams}, StreamID, Tail);
+	commands(set_timeout(State#state{streams=Streams}, idle_timeout), StreamID, Tail);
 commands(State=#state{socket=Socket, transport=Transport, streams=Streams, out_state=OutState},
 		StreamID, [{trailers, Trailers}|Tail]) ->
 	case stream_te(OutState, lists:keyfind(StreamID, #stream.id, Streams)) of
